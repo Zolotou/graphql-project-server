@@ -10,14 +10,14 @@ const schema = buildSchema(`
   type Message {
     id: ID
     post: String
-    date: Int
+    date: String
   }
 
   
   input MessageInput {
     id: ID
     post: String!
-    date: Int
+    date: String
   }
   
   input UserInput {
@@ -25,6 +25,17 @@ const schema = buildSchema(`
     username: String!
     age: Int!
     messages: [MessageInput]
+  }
+
+  input DeleteMessageInput {
+    id: ID
+    post: String
+  }
+
+  type DeleteMessage {
+    id: ID
+    success: [User]
+    post: String
   }
 
   type Query {
@@ -37,6 +48,7 @@ const schema = buildSchema(`
   type Mutation {
     createUser(input: UserInput): User
     createMessage(input: MessageInput): Message
+    deleteMessage(input: DeleteMessageInput): DeleteMessage
   }
 `
 )

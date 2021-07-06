@@ -2,8 +2,9 @@ const express = require('express')
 const {graphqlHTTP} = require('express-graphql')
 const cors = require('cors')
 const schema = require('./schema')
-const users = [{id: 1, username: "VASIA", age:"15", }]
-const usersMessages = [{id: 1, post: "The post", date: "2021"}]
+const { getArgumentValues } = require('graphql/execution/values')
+const users = [{id: 1, username: "VASIA", age:"15", }, {id: 2, username: "VAS2IA", age:"125", }]
+let usersMessages = [{id: 1, post: "The post", date: "2021"}]
 
 const app = express()
 app.use(cors())
@@ -34,10 +35,15 @@ const resolver = {
     return user
   },
   createMessage:({input}) => {
-    const id = Date.now()
-    const date = 123456
+    const id = Date.now();
+    const currentDate = new Date()
+    const date = currentDate.getHours() + ":" + currentDate.getMinutes() 
     usersMessages.push({id, ...input, date})
     return {id, ...input, date}
+  },
+  deleteMessage:({input}) => {
+    usersMessages = usersMessages.filter(message => message.id != input.id)
+    return {id: "sdfsdf", post: "POST", success: users}
   }
 }
 
